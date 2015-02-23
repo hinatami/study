@@ -20,10 +20,14 @@ $(function () {
     トップページや商品ページ等全ページで行う
   */
 
+	var today = new Date();
 	// 今日の曜日を取得します
-	var today = new Date().getDay();
-	// 曜日が 1:月曜日〜5:金曜日 であることを判別して
-	if (0 < today && today < 6) {
+	var day = today.getDay();
+	// 今の時間を分換算で取得します
+	var time = today.getHours()*60 + today.getMinutes();
+
+	// 曜日が「1:月曜日〜5:金曜日」 かつ 時間が「9時〜18時」であることを判別して
+	if ((0 < day && day < 6) && (9*60 <= time && time <= 18*60)) {
 		// body要素の最後に「見れなくする」ための要素を置きます
 		var $htmlBody = $('body');
 		$htmlBody.append('<div style="position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.85);color:#fff;font-size:3rem;text-align:center;z-index:500;"><p style="margin-top:5em;">仕事しよ？ (´・ω・`)</p></div>');

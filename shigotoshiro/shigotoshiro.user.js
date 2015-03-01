@@ -3,6 +3,7 @@
 // @namespace   hinatami.net
 // @description 平日の昼間にamazonを見れなくします。
 // @match       http://www.amazon.co.jp/*
+// @exclude     http://www.amazon.co.jp/*/iframe*
 // @grant       none
 // ==/UserScript==
  

@@ -42,6 +42,9 @@ $(function () {
 	}
 
 	// body要素の最後に「見れなくする」ための要素を置きます
+	var $htmlHead = $('head');
 	var $htmlBody = $('body');
-	$htmlBody.append('<div style="position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.85);color:#fff;font-size:3rem;text-align:center;z-index:500;"><p style="margin-top:5em;">仕事しよ？ (´・ω・`)</p></div>');
+	$htmlHead.append('<style>#shigotoshiro { position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.85);color:#fff;font-size:3rem;text-align:center;z-index:500; }</style>');
+	$htmlHead.append('<style>#shigotoshiro p { margin-top:5em; }</style>');
+	$htmlBody.append('<div id="shigotoshiro"><p>仕事しよ？ (´・ω・`)</p></div>');
 });

@@ -1,8 +1,9 @@
 // ==UserScript==
-// @name        shigotoshiro
+// @name        mottomisero
 // @namespace   hinatami.net
-// @description 平日の昼間にamazonを見れなくします。
-// @match       http://www.amazon.co.jp/*
+// @description クックパッド つくれぽの「もっとみる」を最初から展開します。
+// @match       http://cookpad.com/recipe/*
+// @exclude     http://cookpad.com/recipe/*/*
 // @grant       none
 // ==/UserScript==
  
@@ -13,10 +14,26 @@
  
 $(function () {
   /*
-    ここにコードを書く
-    「平日」は月曜から金曜でOK（祭日は考慮しなくていい）
-    「昼間」は9時から18時にしてください
-    「見れなくする」は高いz-indexを設定したdivを全画面に表示する
-    トップページや商品ページ等全ページで行う
+    クックパッドのレシピページ内にある「 #more_tsukurepos 」にあるリンク先の内容を「 #tsukurepo-list 」内に展開して下さい。
+    展開する内容のURLはhtml上から取得して下さい。
+    （ /recipe/[recipe id] のつくれぽは /recipe/[recipe id]/tsukurepos ですが、決め打ちではなくa要素に振られているhrefの内容から取得して下さい ）
+    iframeは使用禁止です。
+    （iframeで読み込んで、scroll位置を合わせるのは不可）
   */
+
+	// もっと見るのURLを取得します
+	var moreUrl = $('#more_tsukurepos a').attr('href');
+
+	// ajaxでもっと見るの向こう側を取得してきます
+	$.ajax({
+		type: 'GET',
+		url: moreUrl,
+		dataType: 'html'
+	})
+	.done(function (data) {
+		// つくれぽリストを、取得してきたつくれぽリストに置き換えます
+		$('#tsukurepo-list').html($(data).find('#tsukurepo-list'));
+		// 「もっと見る」リンクを隠します
+		$('#more_tsukurepos').hide();
+	});
 });

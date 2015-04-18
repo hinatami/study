@@ -14,6 +14,7 @@
  
 $(function () {
   /*
+    【先生コメント】
     クックパッドのレシピページ内にある「 #more_tsukurepos 」にあるリンク先の内容を「 #tsukurepo-list 」内に展開して下さい。
     展開する内容のURLはhtml上から取得して下さい。
     （ /recipe/[recipe id] のつくれぽは /recipe/[recipe id]/tsukurepos ですが、決め打ちではなくa要素に振られているhrefの内容から取得して下さい ）
@@ -35,5 +36,41 @@ $(function () {
 		$('#tsukurepo-list').html($(data).find('#tsukurepo-list'));
 		// 「もっと見る」リンクを隠します
 		$('#more_tsukurepos').hide();
+
+
+		/*
+			【先生コメント】
+			「もっと見るのページング対応」
+			・「1 2 3 4 5 次へ»」のリンクをクリックした場合、画面遷移せずにつくれぽ内の内容を次のページ内容に差し替える
+			・表示内容を置き換えたら画面の表示位置を #tsukurepo_container に移動する
+			・通信エラーが発生した場合、 #tsukurepo_container 内にエラー内容を表示する（エラーメッセージはJS内のエラーをそのまま表示して大丈夫です）
+		*/
+		$('#tsukurepo-list .paginate a').click(function (event) {
+			// リンク先に遷移しないようにします
+			event.preventDefault();
+
+			// リンク先のURLを取得します
+			var clickUrl = $(this).attr('href');
+
+			// ajaxでリンク先の向こう側を取得してきます
+			$.ajax({
+				type: 'GET',
+				url: clickUrl,
+				dataType: 'html'
+			})
+			.done(function (data) {
+				// つくれぽリストを、取得してきたつくれぽリストに置き換えます
+				$('#tsukurepo-list').html($(data).find('#tsukurepo-list'));
+			})
+			.fail(function (jqXHR, textStatus, errorThrown) {
+				// 失敗したら、エラーメッセージを表示します
+				$('#tsukurepo_container').append('<p>' + jqXHR.status + ' ' + textStatus + ' ' + errorThrown + '</p>');
+			});
+
+			// つくれぽ先頭の位置を取得します
+			var position = $('#tsukurepo_container').offset().top;
+			// 画面の表示位置をつくれぽ先頭に移します
+			$('html,body').animate({ scrollTop: position });
+		});
 	});
 });

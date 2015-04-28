@@ -45,7 +45,7 @@ $(function () {
 			・表示内容を置き換えたら画面の表示位置を #tsukurepo_container に移動する
 			・通信エラーが発生した場合、 #tsukurepo_container 内にエラー内容を表示する（エラーメッセージはJS内のエラーをそのまま表示して大丈夫です）
 		*/
-		$('#tsukurepo-list .paginate a').click(function (event) {
+		$('#tsukurepo-list').on('click', '.paginate a', function (event) {
 			// リンク先に遷移しないようにします
 			event.preventDefault();
 

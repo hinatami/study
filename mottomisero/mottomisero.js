@@ -25,12 +25,10 @@ $(function () {
 	// もっと見るのURLを取得します
 	var moreUrl = $('#more_tsukurepos a').attr('href');
 
-	// ajaxでもっと見るの向こう側を取得してきます
-	$.get( moreUrl )
-	.done(function (data) {
-		// つくれぽリストを、取得してきたつくれぽリストに置き換えます
-		$('#tsukurepo-list').html($(data).find('#tsukurepo-list').children());
-		// 「もっと見る」リンクを隠します
+	// もっと見るの向こう側を展開する関数を呼びます
+	getTsukurepo(moreUrl)
+	.done(function () {
+		// 成功したら、「もっと見る」リンクを隠します
 		$('#more_tsukurepos').hide();
 
 
@@ -48,15 +46,11 @@ $(function () {
 			// リンク先のURLを取得します
 			var clickUrl = $(this).attr('href');
 
-			// ajaxでリンク先の向こう側を取得してきます
-			$.get( clickUrl )
-			.done(function (data) {
-				// つくれぽリストを、取得してきたつくれぽリストに置き換えます
-				$('#tsukurepo-list').html($(data).find('#tsukurepo-list').children());
-			})
+			// リンク先の向こう側を展開する関数を呼びます
+			getTsukurepo(clickUrl)
 			.fail(function (jqXHR, textStatus, errorThrown) {
 				// 失敗したら、エラーメッセージを表示します
-				$('#tsukurepo_container').append('<p>' + jqXHR.status + ' ' + textStatus + ' ' + errorThrown + '</p>');
+				$('#tsukurepo_container').prepend('<p>' + jqXHR.status + ' ' + textStatus + ' ' + errorThrown + '</p>');
 			});
 
 			// つくれぽ先頭の位置を取得します
@@ -65,4 +59,14 @@ $(function () {
 			$('html,body').animate({ scrollTop: position });
 		});
 	});
+
+	// ajaxでリンク先の向こう側を取得してきて、つくれぽリストを置き換える処理
+	function getTsukurepo (url) {
+		var jqxhr = $.get( url )
+		.done(function (data) {
+			// つくれぽリストを、取得してきたつくれぽリストに置き換えます
+			$('#tsukurepo-list').html($(data).find('#tsukurepo-list').children());
+		});
+		return jqxhr;
+	}
 });

@@ -26,11 +26,7 @@ $(function () {
 	var moreUrl = $('#more_tsukurepos a').attr('href');
 
 	// ajaxでもっと見るの向こう側を取得してきます
-	$.ajax({
-		type: 'GET',
-		url: moreUrl,
-		dataType: 'html'
-	})
+	$.get( moreUrl )
 	.done(function (data) {
 		// つくれぽリストを、取得してきたつくれぽリストに置き換えます
 		$('#tsukurepo-list').html($(data).find('#tsukurepo-list'));
@@ -53,11 +49,7 @@ $(function () {
 			var clickUrl = $(this).attr('href');
 
 			// ajaxでリンク先の向こう側を取得してきます
-			$.ajax({
-				type: 'GET',
-				url: clickUrl,
-				dataType: 'html'
-			})
+			$.get( clickUrl )
 			.done(function (data) {
 				// つくれぽリストを、取得してきたつくれぽリストに置き換えます
 				$('#tsukurepo-list').html($(data).find('#tsukurepo-list'));

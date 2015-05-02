@@ -29,7 +29,7 @@ $(function () {
 	$.get( moreUrl )
 	.done(function (data) {
 		// つくれぽリストを、取得してきたつくれぽリストに置き換えます
-		$('#tsukurepo-list').html($(data).find('#tsukurepo-list'));
+		$('#tsukurepo-list').html($(data).find('#tsukurepo-list').children());
 		// 「もっと見る」リンクを隠します
 		$('#more_tsukurepos').hide();
 
@@ -52,7 +52,7 @@ $(function () {
 			$.get( clickUrl )
 			.done(function (data) {
 				// つくれぽリストを、取得してきたつくれぽリストに置き換えます
-				$('#tsukurepo-list').html($(data).find('#tsukurepo-list'));
+				$('#tsukurepo-list').html($(data).find('#tsukurepo-list').children());
 			})
 			.fail(function (jqXHR, textStatus, errorThrown) {
 				// 失敗したら、エラーメッセージを表示します
